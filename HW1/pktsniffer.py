@@ -85,7 +85,11 @@ def packet_matches_filters(pkt, args):
     # Network filter (CIDR) - check source OR dest in subnet
     if args.net and has_layer(pkt, "IP"):
         try:
-            net = ipaddress.ip_network(args.net, strict=False)
+            net_input = args.net
+            if "/" not in net_input:
+                # expand to /24
+                net_input = net_input.rsplit(".", 1)[0] + ".0/24"
+            net = ipaddress.ip_network(net_input, strict=False)
             src_in = ipaddress.ip_address(safe(pkt, "ip.src")) in net
             dst_in = ipaddress.ip_address(safe(pkt, "ip.dst")) in net
             if not (src_in or dst_in):
