@@ -31,6 +31,13 @@ def parse_args():
 def send_scapy_ping(dest_addr, count, interval, packet_size, timeout):
     """
     Sends ICMP echo requests and prints ping statistics.
+
+    :param dest_addr: Destination IP Address
+    :param count: Number of packets to send
+    :param interval: Interval between sending each packet
+    :param packet_size: Size of ICMP packet to send in bytes
+    :param timeout: Max timeout before exiting
+    :return: None
     """
     print(f"PING {dest_addr} ({dest_addr}) {packet_size} bytes of data:")
 
