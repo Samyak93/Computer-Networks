@@ -30,7 +30,7 @@ MAX_REORDER_DELAY = 0.7
 
 # Simulation probabilities
 LOSS_PROB = 0.05
-CORRUPT_PROB = 0.05
+CORRUPT_PROB = 0.03
 REORDER_PROB = 0.08
 DROP_ACK_PROB = 0.05
 
@@ -234,7 +234,8 @@ class Server:
                 corrupted = bytearray(p['payload'])
                 if corrupted:
                     corrupted[random.randrange(len(corrupted))] ^= 0xFF
-                send_pkt = make_packet(p['seq'], bytes(corrupted), p['last'])
+                p["payload"] = base64.b64encode(bytes(corrupted)).decode("ascii")
+                send_pkt = json.dumps(p).encode("utf-8")
                 print(f"[SIM] CORRUPTED seq={seq}")
 
         if random.random() < REORDER_PROB:
