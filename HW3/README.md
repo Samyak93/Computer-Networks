@@ -9,6 +9,8 @@ It includes both a **server** and a **client**, with support for:
 - **Out-of-order** packet handling
 - **Automatic retransmission** on dropped ACKs
 
+Author: Samyak Rajesh Shah
+Course: CSCI-651
 ---
 
 ## 🧩 Project Structure
@@ -17,6 +19,7 @@ It includes both a **server** and a **client**, with support for:
 ├── server.py        # Reliable UDP sender with packet simulation
 ├── client.py        # Reliable UDP receiver with checksum validation
 ├── requirements.txt # Dependencies list
+├── sample.txt       # Sample test file
 └── README.md        # Documentation
 ```
 
@@ -37,12 +40,13 @@ pip install -r requirements.txt
 ### 1️⃣ Start the Server
 Run on a terminal window:
 ```bash
-python server.py <server_ip> <server_port> <file_to_send>
+python server.py --host <server_ip> --port <server_port> --file <file_to_send>
 ```
 
 **Example:**
 ```bash
-python server.py 127.0.0.1 9999 sample.txt
+python server.py --host 127.0.0.1 --port 9000 --file sample.txt
+
 ```
 
 ---
@@ -50,12 +54,13 @@ python server.py 127.0.0.1 9999 sample.txt
 ### 2️⃣ Start the Client
 Run on another terminal:
 ```bash
-python client.py <server_ip> <server_port> <output_file_name>
+python client.py --server_host <server_ip> --server_port <server_port> --file <output_file_name>
 ```
 
 **Example:**
 ```bash
-python client.py 127.0.0.1 9999 received_sample.txt
+python client.py --server_host 127.0.0.1 --server_port 9000 --file sample.txt
+
 ```
 
 ---
@@ -63,7 +68,7 @@ python client.py 127.0.0.1 9999 received_sample.txt
 ## 🧠 How It Works
 
 1. **Server:**
-   - Reads the file and splits it into 512-byte packets.
+   - Reads the file and splits it into 1024-byte packets.
    - Adds sequence number, checksum, and `last` flag.
    - Sends multiple packets in a **sliding window**.
    - Simulates random **loss**, **corruption**, and **reordering**.
@@ -82,42 +87,12 @@ python client.py 127.0.0.1 9999 received_sample.txt
 You can modify the simulation settings in `server.py`:
 
 ```python
-LOSS_PROB = 0.1      # Probability of packet loss
-CORRUPT_PROB = 0.2   # Probability of corruption
-REORDER_PROB = 0.1   # Probability of reordering
+LOSS_PROB = 0.05      # Probability of packet loss
+CORRUPT_PROB = 0.03   # Probability of corruption
+REORDER_PROB = 0.08   # Probability of reordering
 WINDOW_SIZE = 5
-TIMEOUT = 1.5        # Seconds before retransmission
+TIMEOUT = 1.0         # Seconds before retransmission
 ```
 
 ---
 
-## 📷 Report Guidelines
-
-Include these screenshots in your submission:
-1. Packets being **corrupted** and client recovering.
-2. Packets being **lost** and retransmitted.
-3. Packets being **reordered** and reassembled.
-4. Successful **file transfer** output.
-
----
-
-## 🗂️ Submission Structure
-
-```
-<firstname>_<lastname>_hw3.zip
-│
-├── server.py
-├── client.py
-├── requirements.txt
-├── README.md
-├── code_documentation.pdf   # (Generated via Sphinx or similar)
-├── report.pdf               # (With screenshots)
-└── revisions.txt            # Git commit history
-```
-
----
-
-## 👨‍💻 Author
-**Samyak Rajesh Shah**
-
-For academic use in **CSCI-651 Homework 3: Reliable Data Transfer Protocol**.
