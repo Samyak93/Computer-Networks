@@ -9,8 +9,6 @@ It includes both a **server** and a **client**, with support for:
 - **Out-of-order** packet handling
 - **Automatic retransmission** on dropped ACKs
 
-Author: Samyak Rajesh Shah
-Course: CSCI-651
 ---
 
 ## 🧩 Project Structure
