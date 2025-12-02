@@ -1,6 +1,9 @@
 """
 CSCI-651 HW 5: Mininet
 
+Using Mininet VM to install and test routers and switches
+along with subnet masks and how they interact with each other
+
 Topology:
     - Three routers: ra, rb, rc (Linux hosts with IP forwarding enabled)
     - Core router network: 20.10.100.0/24 via core switch s1
@@ -19,13 +22,17 @@ author: SAMYAK RAJESH SHAH
 from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.net import Mininet
-from mininet.node import OVSController   # <--- NEW
+from mininet.node import OVSController
 
 
 def build_network():
-    """Create the Mininet network and return the net object (unstarted)."""
+    """
+    Create the Mininet network and return the net object (unstarted).
+
+    :returns net: The network object created for mininet
+    """
     net = Mininet(
-        controller=OVSController,        # <--- CHANGED (was controller=None)
+        controller=OVSController,
         autoSetMacs=True,
         autoStaticArp=True,
     )
@@ -104,7 +111,12 @@ def build_network():
 
 
 def configure_routers(net):
-    """Assign IP addresses to router interfaces and enable IP forwarding."""
+    """
+    Assign IP addresses to router interfaces and enable IP forwarding.
+
+    :param net: The network object created for mininet
+    :returns: None
+    """
     ra = net["ra"]
     rb = net["rb"]
     rc = net["rc"]
@@ -137,7 +149,12 @@ def configure_routers(net):
 
 
 def test_lan_connectivity(net):
-    """Test reachability within each LAN."""
+    """
+    Test reachability within each LAN.
+
+    :param net: The network object created for mininet
+    :return: None
+    """
     info("\n*** Testing connectivity within LAN A (hA1 <-> hA2)\n")
     net.ping([net["hA1"], net["hA2"]])
 
@@ -154,7 +171,9 @@ def test_lan_connectivity(net):
 
 
 def main():
-    """Build, start, configure, test, then drop to CLI."""
+    """
+    Build, start, configure, test, then drop to CLI.
+    """
     net = build_network()
 
     # Add controller before starting the network
