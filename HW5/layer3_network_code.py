@@ -1,9 +1,9 @@
 """
-CSCI-651 HW 3: Mininet
+CSCI-651 HW 5: Mininet
 
 Topology:
     - Three routers: ra, rb, rc (Linux hosts with IP forwarding enabled)
-    - Core router network: 20.10.100.0/24 via core switch sCore
+    - Core router network: 20.10.100.0/24 via core switch s1
     - LAN A: 20.10.172.128/26   (hosts hA1, hA2)
     - LAN B: 20.10.172.0/25     (hosts hB1, hB2)
     - LAN C: 20.10.172.192/27   (hosts hC1, hC2)
@@ -19,11 +19,16 @@ author: SAMYAK RAJESH SHAH
 from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.net import Mininet
+from mininet.node import OVSController   # <--- NEW
 
 
 def build_network():
     """Create the Mininet network and return the net object (unstarted)."""
-    net = Mininet(controller=None, autoSetMacs=True, autoStaticArp=True)
+    net = Mininet(
+        controller=OVSController,        # <--- CHANGED (was controller=None)
+        autoSetMacs=True,
+        autoStaticArp=True,
+    )
 
     # Switches
     s_core = net.addSwitch("s1")
@@ -86,7 +91,6 @@ def build_network():
     net.addLink(hC2, s_c)
 
     # Connect routers to LAN switches (LAN interfaces)
-    # We name interfaces explicitly to make IP assignment easier.
     net.addLink(ra, s_a, intfName1="ra-eth1")
     net.addLink(rb, s_b, intfName1="rb-eth1")
     net.addLink(rc, s_c, intfName1="rc-eth1")
@@ -152,6 +156,9 @@ def test_lan_connectivity(net):
 def main():
     """Build, start, configure, test, then drop to CLI."""
     net = build_network()
+
+    # Add controller before starting the network
+    net.addController("c0")     # <--- NEW
 
     info("*** Starting network\n")
     net.start()
