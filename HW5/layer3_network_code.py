@@ -26,10 +26,10 @@ def build_network():
     net = Mininet(controller=None, autoSetMacs=True, autoStaticArp=True)
 
     # Switches
-    s_core = net.addSwitch("sCore")
-    s_a = net.addSwitch("sA")
-    s_b = net.addSwitch("sB")
-    s_c = net.addSwitch("sC")
+    s_core = net.addSwitch("s1")
+    s_a = net.addSwitch("s2")
+    s_b = net.addSwitch("s3")
+    s_c = net.addSwitch("s4")
 
     # Routers as regular hosts; we'll enable IP forwarding later
     ra = net.addHost("ra")
